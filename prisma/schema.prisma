@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://pguser:pgpassword@localhost:5432/pgdatabase?schema=lookup"
+  schemas  = ["lookup", "logs"]
+}
+
+model pleasework {
+  dbId   Int      @default(autoincrement()) @map("db_id")
+  value1 String
+  value2 Int      @map("value_2")
+  value3 String
+  value4 DateTime @map("value_4")
+  value5 Decimal  @db.Decimal(65, 2)
+
+  @@id([value1, value2, value3, value4, value5])
+  @@schema("lookup")
+}
